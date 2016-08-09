@@ -12,4 +12,4 @@ services.AddMvc(config =>
             });
 ```
 
-Please note this is highly expiremental and lacking a lot of features. Just a quick hack to get basic exception logging working!
+Please note this is highly experimental and lacking a lot of features. Just a quick hack to get basic exception logging working!
