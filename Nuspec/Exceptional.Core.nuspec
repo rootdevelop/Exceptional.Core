@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+	<metadata>
+		<id></id>
+		<version>1.9.1-beta</version>
+		<title>Exceptional.Core</title>
+		<authors>RootDevelop</authors>
+		<owners>RootDevelop</owners>
+		<licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+		<projectUrl>https://github.com/rootdevelop/Exceptional.Core</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Lite implementation of MS SQL Exception logger for ASP.Net Core (based on StackExchange.Exceptional).</description>
+		<tags>exception, mssql, aspnetcore</tags>
+		<releaseNotes>
+			09 August 2016: Inital release
+        </releaseNotes>
+		<dependencies>
+		  <group targetFramework=".NETStandard1.6">
+			<dependency id="NETStandard.Library" version="1.6.0" />
+			<dependency id="Newtonsoft.Json" version="9.0.1" />
+			<dependency id="Dapper" version="1.50.2" />
+			<dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.0.0" />
+		  </group>
+		</dependencies>
+	</metadata>
+	<files>	
+  		<!-- Netstandard -->
+		<file src="..\src\Exceptional.Core\bin\Release\netstandard1.6\Exceptional.Core.dll" target="lib\netstandard1.6\Exceptional.Core.dll" />
+		<file src="..\src\Exceptional.Core\bin\Release\netstandard1.6\Exceptional.Core.pdb" target="lib\netstandard1.6\Exceptional.Core.pdb" />
+	</files>
+</package>

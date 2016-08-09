@@ -2,7 +2,6 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using Dapper;
-using StackExchange.Exceptional;
 
 namespace Exceptional.Core.Stores
 {
@@ -84,7 +83,6 @@ Values (@GUID, @ApplicationName, @MachineName, @CreationDate, @Type, @IsProtecte
                             Message = error.Message.Truncate(1000),
                             error.Detail,
                             error.StatusCode,
-                            error.SQL,
                             error.FullJson,
                             error.ErrorHash,
                             error.DuplicateCount
