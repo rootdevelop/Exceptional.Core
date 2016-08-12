@@ -41,20 +41,20 @@ namespace Exceptional.Core.Stores
                         {
                             error.DuplicateCount,
                             error.ErrorHash,
-                            ApplicationName = error.ApplicationName.Truncate(50),
+                            ApplicationName = _applicationName,
                             minDate = DateTime.UtcNow.AddMinutes(-30)
                         });
                     queryParams.Add("@newGUID", dbType: DbType.Guid, direction: ParameterDirection.Output);
                     var count = c.Execute(@"
-Update Exceptions 
-   Set DuplicateCount = DuplicateCount + @DuplicateCount,
-       @newGUID = GUID
- Where Id In (Select Top 1 Id
-                From Exceptions 
-               Where ErrorHash = @ErrorHash
-                 And ApplicationName = @ApplicationName
-                 And DeletionDate Is Null
-                 And CreationDate >= @minDate)", queryParams);
+                                            Update Exceptions 
+                                               Set DuplicateCount = DuplicateCount + @DuplicateCount,
+                                                   @newGUID = GUID
+                                             Where Id In (Select Top 1 Id
+                                                            From Exceptions 
+                                                           Where ErrorHash = @ErrorHash
+                                                             And ApplicationName = @ApplicationName
+                                                             And DeletionDate Is Null
+                                                             And CreationDate >= @minDate)", queryParams);
                     // if we found an error that's a duplicate, jump out
                     if (count > 0)
                     {
@@ -66,8 +66,8 @@ Update Exceptions
                 error.FullJson = error.ToJson();
 
                 c.Execute(@"
-Insert Into Exceptions (GUID, ApplicationName, MachineName, CreationDate, Type, IsProtected, Host, Url, HTTPMethod, IPAddress, Source, Message, Detail, StatusCode, SQL, FullJson, ErrorHash, DuplicateCount)
-Values (@GUID, @ApplicationName, @MachineName, @CreationDate, @Type, @IsProtected, @Host, @Url, @HTTPMethod, @IPAddress, @Source, @Message, @Detail, @StatusCode, @SQL, @FullJson, @ErrorHash, @DuplicateCount)",
+                            Insert Into Exceptions (GUID, ApplicationName, MachineName, CreationDate, Type, IsProtected, Host, Url, HTTPMethod, IPAddress, Source, Message, Detail, StatusCode, SQL, FullJson, ErrorHash, DuplicateCount)
+                            Values (@GUID, @ApplicationName, @MachineName, @CreationDate, @Type, @IsProtected, @Host, @Url, @HTTPMethod, @IPAddress, @Source, @Message, @Detail, @StatusCode, @SQL, @FullJson, @ErrorHash, @DuplicateCount)",
                     new {
                             error.GUID,
                             ApplicationName = _applicationName.Truncate(50),

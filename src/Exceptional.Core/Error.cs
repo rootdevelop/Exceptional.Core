@@ -21,9 +21,12 @@ namespace Exceptional.Core
         /// <see cref="HttpContext"/> instance representing the HTTP 
         /// context during the exception.
         /// </summary>
-        public Error(Exception e, HttpContext context = null)
+        public Error(Exception e, bool rollupPerServer = false, HttpContext context = null, int statusCode = 500)
         {
             if (e == null) throw new ArgumentNullException(nameof(e));
+
+            RollupPerServer = rollupPerServer;
+            IsProtected = false; // TODO maybe change this in de future
 
             Exception = e;
             var baseException = e.GetBaseException();
@@ -41,7 +44,45 @@ namespace Exceptional.Core
             {
                 IPAddress = context.Connection.RemoteIpAddress.ToString();
                 HTTPMethod = context.Request.Method;
-                StatusCode = 500; // TODO find a way to get the statuscode
+                StatusCode = statusCode;
+                Host = context.Request.Host.Host;
+                Url = context.Request.Path.ToString();
+            }
+
+            ErrorHash = GetHash();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Error"/> class
+        /// from custom values and <see cref="HttpContext"/> instance 
+        /// representing the HTTP context during the exception. 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="source"></param>
+        /// <param name="message"></param>
+        /// <param name="detail"></param>
+        /// <param name="context"></param>
+        /// <param name="rollupPerServer"></param>
+        /// <param name="statusCode"></param>
+        public Error(string type, string source, string message, string detail, HttpContext context = null, bool rollupPerServer = false, int? statusCode = null)
+        {
+            GUID = Guid.NewGuid();
+            MachineName = Environment.MachineName;
+            Type = type;
+            Message = message;
+            Source = source;
+            Detail = detail;
+
+            if (context != null)
+            {
+                IPAddress = context.Connection.RemoteIpAddress.ToString();
+                HTTPMethod = context.Request.Method;
+
+                if (statusCode != null)
+                {
+                    StatusCode = statusCode;
+                }
+                
                 Host = context.Request.Host.Host;
                 Url = context.Request.Path.ToString();
             }
@@ -60,25 +101,19 @@ namespace Exceptional.Core
 
             var result = Detail.GetHashCode();
             if (RollupPerServer && MachineName.HasValue())
-                result = (result * 397)^ MachineName.GetHashCode();
+                result = (result * 397) ^ MachineName.GetHashCode();
 
             return result;
         }
 
-        /// <summary>
-        /// Reflects if the error is protected from deletion
-        /// </summary>
-        public bool IsProtected { get; set; }
 
         /// <summary>
         /// Gets the <see cref="Exception"/> instance used to create this error
         /// </summary>
         public Exception Exception { get; set; }
 
-        /// <summary>
-        /// Gets the name of the application that threw this exception
-        /// </summary>
-        public string ApplicationName { get; set; }
+
+        public bool IsProtected { get; set; }
 
         /// <summary>
         /// Gets the hostname of where the exception occured
