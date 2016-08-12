@@ -4,7 +4,7 @@ Lite implementation of MS SQL Exception logger for ASP.Net Core (based on StackE
 To implement add the following in Startup.cs:   
 
 ```
- Exceptional.Core.ErrorStore.Setup(new SQLErrorStore("your connection string here"));
+ Exceptional.Core.ErrorStore.Setup(new SQLErrorStore("applicationname","your connection string here"));
 
  var globalExceptionFilter = new GlobalExceptionFilter {RollupPerServer = false};
 
