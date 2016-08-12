@@ -72,6 +72,8 @@ namespace Exceptional.Core
             Message = message;
             Source = source;
             Detail = detail;
+            CreationDate = DateTime.UtcNow;
+            DuplicateCount = 1;
 
             if (context != null)
             {
@@ -177,6 +179,9 @@ namespace Exceptional.Core
         /// The URL path of the request causing this error
         /// </summary>
         public string Url { get; set; }
+
+
+        public string Sql { get; set; }
 
         /// <summary>
         /// The HTTP Method causing this error, e.g. GET or POST

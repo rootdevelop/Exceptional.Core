@@ -83,6 +83,7 @@ namespace Exceptional.Core.Stores
                             Message = error.Message.Truncate(1000),
                             error.Detail,
                             error.StatusCode,
+                            error.Sql,
                             error.FullJson,
                             error.ErrorHash,
                             error.DuplicateCount

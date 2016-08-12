@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
 	<metadata>
 		<id>Exceptional.Core</id>
-		<version>0.0.2-beta</version>
+		<version>0.0.3-beta</version>
 		<title>Exceptional.Core</title>
 		<authors>RootDevelop</authors>
 		<owners>RootDevelop</owners>
@@ -12,6 +12,7 @@
 		<description>Lite implementation of MS SQL Exception logger for ASP.Net Core (based on StackExchange.Exceptional).</description>
 		<tags>exception, mssql, aspnetcore</tags>
 		<releaseNotes>
+			12 August 2016: Custom logging of events is now possible
 			09 August 2016: Inital release
         </releaseNotes>
 		<dependencies>
